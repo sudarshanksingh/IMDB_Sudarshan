@@ -44,7 +44,7 @@ SCREENSHOTS
 	 
 MY APPROACH TO BUILD THIS APPLICATION
 -------------------------------------
-
+**I have used Code First with Poco (Created the table , created the POCO and mapped these two )
 
 1. Firstly i wrote a SQL script to create tables 
     
