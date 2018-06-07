@@ -2,9 +2,14 @@
 HOW TO RUN THE APPLICATION
 --------------------------
 
- 1. Download the zip file from github and extract it.
+ 1. Download the zip file from github and extract it. (After extract directory strucure would be 
+              IMDB_Sudarshan-master/.vs
+	                            IMDB_MVC_Sudarshan
+				    packages
+				    .gitattributes
+				    IMDB_MVC_Sudarshan.sln
 
- 2. Open the sln file and run it (It will list some of the added entry into database)
+ 2. Open the sln file(IMDB_MVC_Sudarshan.sln) and run it (It will list some of the added entry into database)
     I have configured database on godaddy server and have inserted some record into it.
 	
 	Connection string to be used in this case :-
@@ -79,8 +84,11 @@ MY APPROACH TO BUILD THIS APPLICATION
 	RemoveDeselectedActors()
 
 
-8.Constraint - 
-   *SQL - check constraint on Year of Release in Movie Database 
+8.Constraint :- 
+   *SQL - check constraint on Year of Release in Movie Database
+   
    *Actors is required in   Edit Screen - (http://localhost:61653/Movies/Edit/3)
+   
    *Producers is Required in Edit Screen - (http://localhost:61653/Movies/Edit/3)
+   
    *Name , Year of Release are required while creating or editing the movie 
