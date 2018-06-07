@@ -1,0 +1,226 @@
+﻿@model IMDB_MVC_Sudarshan.Models.MovieViewModel
+
+@{
+    ViewBag.Title = "Create Movie";
+    var attr = new { required = "required", size = 8, @style = "width: 325px;overflow:auto;" };
+    IDictionary<string, object>
+        htmlattrb = new RouteValueDictionary(attr);
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm("Create", "Movies", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Movie</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Yor, htmlAttributes: new { @class = "control-label col-md-2"  })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Yor, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                @Html.ValidationMessageFor(model => model.Yor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Producer*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Producers, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.ProducerId, new SelectList(Model.Producers , "Id","Name"), new { @class = "form-control", required = "required" })
+                <br /><br />
+                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addProducer">Add New Producer</button>
+            </div>
+        </div>
+       
+        
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Actors</label>
+            <div class="col-md-10">
+                @Html.ListBoxFor(
+                                x => x.SelectedActorIds,
+                                        new SelectList(Model.Items, "Value", "Text"), htmlattrb
+
+                                        )
+                @Html.ValidationMessageFor(model => model.SelectedActorIds, "", new { @class = "text-danger" })
+                <br /><br />
+                <p>*Hold Control and click on actors to select multiple.</p>
+                <button type="button" class="btn btn-info btn-md" data-toggle="modal" data-target="#addActor">Add New Actor</button>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label class="control-label col-md-2">Poster</label>
+            <div class="col-md-4">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                        <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;">
+                    </div>
+                    <div>
+                        <span class="btn default btn-file">
+                            
+                            <input type="file" name="Poster">
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Poster, "", new { @class = "help-block" })
+                </div>
+            </div>
+            </div>
+
+        <!-- Modal for Adding a New Producer-->
+        <div id="addProducer" class="modal fade" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Add New Producer </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 form-horizontal">
+                                <form id="" class="" action="">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control required" id="pName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Sex</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="pSex">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">DOB</label>
+                                        <div class="col-sm-9">
+                                            <input type="datetime-local" value="2012-05-03T05:23:13" class="form-control" id="pDob">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Bio</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" rows="4" id="pBio"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" onclick="clear1();" class="btn default">Cancel</button>
+                        <button type="button" class="btn green" aria-hidden="true" onclick="AddProducer()" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Add a new Actor-->
+        <div id="addActor" class="modal fade" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">Add New Actor </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 form-horizontal">
+                                <form id="" class="" action="">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="cName" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Sex</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="cSex">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">DOB</label>
+                                        <div class="col-sm-9">
+                                            <input type="datetime-local" value="2012-05-03T05:23:13" class="form-control" id="cDob">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3">Bio</label>
+                                        <div class="col-sm-9">
+                                            <textarea class="form-control" rows="4" id="cBio"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" onclick="clear1();" class="btn default">Cancel</button>
+                        <button type="button" class="btn green" aria-hidden="true" onclick="AddActor()" data-dismiss="modal">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+
+
+    function AddProducer() {
+        var n = $('#cName').val();
+        var s = $('#cSex').val();
+        var url = "/Producer/AddNewProducer/";
+        $.post(url, { name: $('#pName').val(), sex: $('#pSex').val(), dob: $('#pDob').val(), bio: $('#pBio').val() }, function (data) {
+            if (data.Success) {
+                alert("Producer Added");
+                window.location.reload();
+            }
+        });
+    }
+
+
+    function AddActor()
+    {
+        var n = $('#cName').val();
+        var s = $('#cSex').val();
+        var url = "/Actor/AddNewActor/";
+        $.post(url, { name: $('#cName').val(), sex: $('#cSex').val(), dob: $('#cDob').val(), bio: $('#cBio').val() }, function (data) {
+            if (data.Success) {
+                alert(" Actor Added");
+                window.location.reload();
+            }
+        });
+    }
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

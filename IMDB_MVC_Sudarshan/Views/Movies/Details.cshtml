@@ -1,0 +1,42 @@
+﻿@model IMDB_MVC_Sudarshan.Models.Movie
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Movie</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Yor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Yor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Poster)
+        </dt>
+
+        <dd>
+            <img src="@Model.Poster" alt="" style="width:200px;height:150px" ;>
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MovieId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

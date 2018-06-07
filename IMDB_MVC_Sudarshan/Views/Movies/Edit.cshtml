@@ -1,0 +1,105 @@
+﻿@model IMDB_MVC_Sudarshan.Models.MovieViewModel
+
+@{
+    ViewBag.Title = "Edit";
+    var attr = new { required="required", data_val_required = "needed", size = 8, @style = "width: 325px;overflow:auto;" };
+    IDictionary<string, object>
+        htmlattrb = new RouteValueDictionary(attr);
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm("Edit", "Movies", FormMethod.Post, new { @class = "form-horizontal", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Movie</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.MovieId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Yor, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Yor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Yor, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*Producer*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.Producers, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @*@Html.EditorFor(model => model.Yor, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Yor, "", new { @class = "text-danger" })*@
+                
+                @Html.DropDownListFor(model => model.ProducerId, new SelectList(Model.Producers, "Id", "Name"), ((Model.ProducerId > 0) ? Model.Producers.Where(x=>x.Id == Model.ProducerId).FirstOrDefault().Name : "--Select Producer--") , new { @class = "form-control", required = "required" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Actors</label>
+            <div class="col-md-10">
+                @Html.ListBoxFor(
+                                x => x.SelectedActorIds,
+                                        new SelectList(Model.Items, "Value", "Text"), htmlattrb
+
+                                        )
+                @Html.ValidationMessageFor(model => model.SelectedActorIds, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Poster</label>
+            <div class="col-md-10">
+                <div class="fileinput fileinput-new" data-provides="fileinput">
+                    <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                        @if (Model.Poster != null)
+                        {
+                            <img src="@Model.Poster" style="max-width: 200px; max-height: 150px;" alt="">
+                        }
+                        else
+                        {
+                            <img src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" alt="">
+                        }
+                    </div>
+                    <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 200px; max-height: 150px; line-height: 10px;">
+                    </div>
+                    <div>
+                        <span class="btn default btn-file">
+                           
+                            <input type="file" name="Poster">
+                        </span>
+                       
+                    </div>
+                    @Html.ValidationMessageFor(model => model.Poster, "", new { @class = "help-block" })
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
